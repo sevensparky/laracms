@@ -20,7 +20,11 @@ Route::group(['middleware' => 'auth','prefix' => 'panel'],function(){
    Route::put('users/{user}',[UserController::class,'changeRole'])->name('users.changeRole');
 });
 
-
+Route::group([],function(){
+   Route::get('/',[HomeController::class,'home'])->name('home');
+   Route::get('/posts/{post}',[HomeController::class,'single'])->name('single.page');
+   Route::get('search',[HomeController::class,'search'])->name('search.page');
+});
 
 Auth::routes();
 
