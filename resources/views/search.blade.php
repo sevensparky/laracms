@@ -1,15 +1,10 @@
 @extends('section.master')
 @section('content')
-
-
     <!-- Main Content -->
     <main class="main-content">
-
         <section class="section bg-gray">
           <div class="container">
-  
             <div class="row gap-y">
-
                 @foreach ($posts as $post)
                 <div class="col-md-6 col-lg-4">
                     <div class="card d-block border hover-shadow-6 mb-6">
@@ -21,17 +16,8 @@
                     </div>
                   </div>
                 @endforeach
-
             </div>
-  
-  
-            <nav class="flexbox mt-6">
-              <a class="btn btn-white disabled"><i class="ti-arrow-left fs-9 mr-2"></i> Newer</a>
-              <a class="btn btn-white" href="#">Older <i class="ti-arrow-right fs-9 ml-2"></i></a>
-            </nav>
-  
           </div>
         </section>
-  
       </main>
 @endsection

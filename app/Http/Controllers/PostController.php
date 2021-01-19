@@ -134,7 +134,7 @@ class PostController extends Controller
     {
             unlink(public_path('upload/posts/'.$post->image));
             $post->delete();
-            return redirect(route('posts.trashed-posts'));
+            return redirect(route('posts.index'));
     }
 
 }

@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="d-flex justify-content-start">
-    {{-- <a href="{{ route('users.create') }}" class="btn btn-primary mb-2">افزودن دسته بندی</a> --}}
-</div>
+<div class="d-flex justify-content-start"></div>
 
 @include('cms.alerts.alert')
 
