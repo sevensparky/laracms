@@ -1,0 +1,7 @@
+@include('section.header')
+@stack('header')
+@include('section.nav')
+@include('section.hero')
+@yield('content')
+@include('section.footer')
+@stack('footer')
