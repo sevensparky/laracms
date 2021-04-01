@@ -7,7 +7,6 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    
 
      /**
      * Display a listing of the resource.
@@ -16,8 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::latest()->get();
-        return view('cms.categories.index',compact('categories'));
+        $categories = Category::latest()->paginate(12);
+        return view('admin.layouts.categories.all',compact('categories'));
     }
 
     /**
@@ -27,7 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('cms.categories.create');
+        return view('admin.layouts.categories.create');
     }
 
     /**
@@ -68,7 +67,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('cms.categories.edit',compact('category'));
+        return view('admin.layouts.categories.edit',compact('category'));
     }
 
     /**

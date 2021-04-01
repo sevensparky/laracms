@@ -17,7 +17,7 @@ class TagController extends Controller
     public function index()
     {
         $tags = Tag::latest()->paginate();
-        return view('cms.tags.index',compact('tags'));
+        return view('admin.layouts.tags.all',compact('tags'));
     }
 
     /**
@@ -27,7 +27,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        return view('cms.tags.create');
+        return view('admin.layouts.tags.create');
     }
 
     /**
@@ -68,7 +68,7 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
-        return view('cms.tags.edit',compact('tag'));
+        return view('admin.layouts.tags.edit',compact('tag'));
     }
 
     /**

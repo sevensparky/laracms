@@ -4,7 +4,7 @@
           <div class="row">
             <div class="col-md-8 mx-auto">
   
-              <h1>{{ env('APP_NAME') }}</h1>
+              <h1>وب نوشت</h1>
               <p class="lead-2 opacity-90 mt-6">تازه ترین و بروز ترین اخبار فناوری اطلاعات</p>
   
             </div>

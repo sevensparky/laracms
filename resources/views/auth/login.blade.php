@@ -3,7 +3,7 @@
 <div class="limiter">
     <div class="container-login100">
         <div class="wrap-login100">
-            <div class="login100-form-title" style="background-image: url(images/bg-01.jpg);">
+            <div class="login100-form-title" style="background-image: url({{ asset('images/bg-01.jpg')}});">
             <a href="{{ route('home') }}"><img src="{{ asset('images/icons/logo.png') }}" alt="logo" width="60" height="60"></a>
 
                 <span class="login100-form-title-1">

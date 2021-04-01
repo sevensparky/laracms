@@ -26,7 +26,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::with('category')->latest()->paginate(10);
-        return view('cms.posts.index',compact('posts'));
+        return view('admin.layouts.posts.all',compact('posts'));
     }
 
     /**
@@ -36,7 +36,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('cms.posts.create')->with('tags');
+        return view('admin.layouts.posts.create')->with('tags');
     }
 
     /**
@@ -90,7 +90,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('cms.posts.edit',compact('post'));
+        return view('admin.layouts.posts.edit',compact('post'));
     }
 
     /*
