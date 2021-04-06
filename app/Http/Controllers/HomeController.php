@@ -39,7 +39,7 @@ class HomeController extends Controller
 
     public function single(Post $post)
     {
-        $comments = $post->comments()->where('approved','inactive')->get();
+        $comments = $post->comments()->where('approved','active')->get();
         return view('single',compact('post','comments'));
     }
 
@@ -51,6 +51,7 @@ class HomeController extends Controller
         ]);
 
         Comment::create(array_merge(['user_id' => auth()->user()->id],$request->only('commentable_id','commentable_type','comment')));
+        toast('نظر شما باموفقیت ثبت شد منتظر تایید مدیران باشید','success','bottom-right')->autoClose(3000);
         return back();
     }
 

@@ -29,4 +29,3 @@ Route::group([],function(){
 });
 
 Auth::routes();
- 

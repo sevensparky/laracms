@@ -15,7 +15,7 @@
     <link href="{{ asset('bin/bootstrap-rtl/dist/css/bootstrap-rtl.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="{{ asset('bin/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
-        <!-- Custom Theme Style -->
+
     <link href="{{ asset('bin/css/custom.min.css') }}" rel="stylesheet">
 
     @stack('styles')

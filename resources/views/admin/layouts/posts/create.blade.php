@@ -16,10 +16,9 @@
             
             <div class="x_content">
                 <br/>
+
                 <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data"  id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
                     
-                   @include('admin.layouts.messages.error')
-
                     @csrf
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">عنوان مقاله

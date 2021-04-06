@@ -43,9 +43,7 @@ class TagController extends Controller
         ]);
 
         Tag::create($request->only('name'));
-
-        session()->flash('success','!برچسب (تگ) مورد نظر با موفقیت ایجاد شد');
-
+        toast('برچسب (تگ) مورد نظر با موفقیت ایجاد شد','success')->autoClose(2000);
         return redirect(route('tags.index'));
     }
 
@@ -75,13 +73,13 @@ class TagController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\tag  $tag
+     * @param  \App\Models\tag  $tag 
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Tag $tag)
     {
         $tag->update($request->only('name'));
-        session()->flash('success','!برچسب (تگ) مورد نظر با موفقیت ویرایش شد');
+        toast('برچسب (تگ) مورد نظر با موفقیت ویرایش شد','success')->autoClose(2000);
         return redirect(route('tags.index'));
     }
 
@@ -94,7 +92,7 @@ class TagController extends Controller
     public function destroy(Tag $tag)
     {
         $tag->delete();
-        session()->flash('success','!برچسب (تگ) مورد نظر با موفقیت حذف شد');
+        toast('برچسب (تگ) مورد نظر با موفقیت حذف شد','success')->autoClose(2000);
         return redirect(route('tags.index'));
     }
 

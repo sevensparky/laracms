@@ -61,10 +61,10 @@ class PostController extends Controller
           if ($request->tags) {
               $post->tags()->attach($request->tags);
           }
-
-          session()->flash('success','!پست جدید با موفقیت ایجاد شد');
-          return redirect(route('posts.index')); 
+            toast('پست جدید با موفقیت ایجاد شد','success')->autoClose(2000);
+            return redirect(route('posts.index')); 
         } catch (Exception $e) {
+            toast('مشکلی رخ داده دوباره امتحان کنید','warning')->autoClose(2000);
             session()->flash('error','مشکلی رخ داده: ' . $e);
             return back();
         }
@@ -115,9 +115,11 @@ class PostController extends Controller
                     $post->tags()->sync($request->tags);
                 }
                 session()->flash('success','!پست مورد نظر با موفقیت ویرایش شد');
+                toast('مقاله مورد نظر با موفقیت ویرایش شد','success')->autoClose(2000);
                 return redirect(route('posts.index'));
             }
         } catch (Exception $e) {
+            toast('مشکلی رخ داده دوباره امتحان کنید','warning')->autoClose(2000);
             session()->flash('error','مشکلی رخ داده: ' . $e);
             return back();
         }
@@ -132,9 +134,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-            unlink(public_path('upload/posts/'.$post->image));
-            $post->delete();
-            return redirect(route('posts.index'));
+        unlink(public_path('upload/posts/'.$post->image));
+        $post->delete();
+        toast('مقاله مورد نظر با موفقیت حذف شد','success')->autoClose(2000);
+        return redirect(route('posts.index'));
     }
 
 }

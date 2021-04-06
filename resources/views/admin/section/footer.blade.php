@@ -27,11 +27,10 @@
 <!-- Bootstrap -->
 <script src="{{ asset('bin/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 
+@include('sweetalert::alert')
 
-<!-- Custom Theme Scripts -->
+
 <script src="{{ asset('bin/js/custom.min.js') }}"></script>
-
-<!-- /bootstrap-daterangepicker -->
 
 @stack('scripts')
 

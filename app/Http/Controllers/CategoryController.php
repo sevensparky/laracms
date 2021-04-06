@@ -43,7 +43,7 @@ class CategoryController extends Controller
 
         Category::create($request->only('name'));
 
-        session()->flash('success','!دسته مورد نظر با موفقیت ایجاد شد');
+        toast('دسته مورد نظر با موفقیت ایجاد شد','success')->autoClose(2000);
 
         return redirect(route('categories.index'));
     }
@@ -84,7 +84,7 @@ class CategoryController extends Controller
         ]);
         
         $category->update($request->only('name'));
-        session()->flash('success','!دسته مورد نظر با موفقیت ویرایش شد');
+        toast('دسته مورد نظر با موفقیت ویرایش شد','success')->autoClose(2000);
         return redirect(route('categories.index'));
     }
 
@@ -97,7 +97,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        session()->flash('success','!دسته مورد نظر با موفقیت حذف شد');
+        toast('دسته مورد نظر با موفقیت حذف شد','success')->autoClose(2000);
         return redirect(route('categories.index'));
     }
 
