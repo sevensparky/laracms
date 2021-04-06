@@ -24,6 +24,7 @@ Route::group(['middleware' => 'auth','prefix' => 'panel'],function(){
 Route::group([],function(){
    Route::get('/',[HomeController::class,'home'])->name('home');
    Route::get('/posts/{post}',[HomeController::class,'single'])->name('single.page');
+   Route::post('comment/send',[HomeController::class,'comment'])->name('comment.send');
    Route::get('search',[HomeController::class,'search'])->name('search.page');
 });
 

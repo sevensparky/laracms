@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -38,6 +39,20 @@ class HomeController extends Controller
 
     public function single(Post $post)
     {
-        return view('single',compact('post'));
+        $comments = $post->comments()->where('approved','inactive')->get();
+        return view('single',compact('post','comments'));
     }
+
+
+    public function comment(Request $request)
+    {
+        $this->validate($request,[
+            'comment' => 'required'
+        ]);
+
+        Comment::create(array_merge(['user_id' => auth()->user()->id],$request->only('commentable_id','commentable_type','comment')));
+        return back();
+    }
+
+
 }
