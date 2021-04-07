@@ -17,7 +17,7 @@ class CreateCommentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->enum('approved',['active','inactive'])->default('inactive');
+            $table->enum('status',['rejected','accepted','unseen'])->default('unseen');  
             $table->text('comment');
             $table->unsignedBigInteger('commentable_id');
             $table->string('commentable_type');

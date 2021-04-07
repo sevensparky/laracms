@@ -5,9 +5,7 @@
         <div class="x_title">
             <h2>همه کاربران</h2>
             <ul class="nav navbar-right panel_toolbox">
-                <li style="margin-right: 15px;" title="دسترسی کاربران"><a href="{{ route('permissions.index') }}"><i class="fa fa-shield"></i></a></li>
-                {{-- <li title="نقش کاربران"><a href="{{ route('roles.index') }}"><i class="fa fa-star-half-o"></i></a></li> --}}
-                <li><a href="{{ route('levelManagement.index') }}"><i class="fa fa-signal"></i></a></li>
+
             </ul>
             <div class="clearfix"></div>
         </div>
@@ -30,7 +28,7 @@
                         <td>{{ $user->id }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->level }}</td>
+                        <td>{{ $user->role }}</td>
                         <td>
                         </td>
                     </tr>

@@ -39,7 +39,7 @@ class HomeController extends Controller
 
     public function single(Post $post)
     {
-        $comments = $post->comments()->where('approved','active')->get();
+        $comments = $post->comments()->where('status','accepted')->get();
         return view('single',compact('post','comments'));
     }
 

@@ -13,6 +13,7 @@ class PanelController extends Controller
      */
     public function dashboard()
     {
+      //  return(auth()->user());
        return view('admin.layouts.panel');
     }
 

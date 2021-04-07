@@ -41,6 +41,9 @@
             <div class="x_title">
                 <h2>آخرین کاربران اخیر
                 </h2>
+                <h5 class="pull-left">
+                    <a href="{{ route('users.index') }}">مشاهده</a>
+                </h5>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -65,6 +68,9 @@
                 <div class="x_title">
                     <h2>آخرین مقالات اخیر
                     </h2>
+                    <h5 class="pull-left">
+                        <a href="{{ route('posts.index') }}">مشاهده</a>
+                    </h5>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -90,14 +96,26 @@
                 <div class="x_title">
                     <h2>آخرین نظرات ارسالی
                     </h2>
+                    
+                    <h5 class="pull-left">
+                        <a href="{{ route('comments.index') }}">مشاهده</a>
+                    </h5>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
                     @foreach (\App\Models\Comment::orderBy('id','desc')->take(5)->get() as $comment)
                     <article class="media event">
-                        {{-- <p class="pull-left">
-                            <img src="{{ asset('images/user.png') }}">
-                        </p> --}}
+                        <p class="pull-left">
+                            <span class="text-warning">
+                                @if ($comment->status == 'unseen')
+                                <span class="text-warning">مشاهده نشده</span>
+                                @elseif ($comment->status == 'accepted')
+                                    <span class="text-success">تایید شده</span>   
+                                @else
+                                <span class="text-danger">رد شده</span>
+                                @endif    
+                            </span>
+                        </p>
                         <div class="media-body">
                             <a class="title">{{ $comment->comment }}</a>
                             <p>{{ $comment->user->name }}</p>

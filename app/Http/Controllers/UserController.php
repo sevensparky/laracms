@@ -16,7 +16,7 @@ class UserController extends Controller
     {
         if (Gate::allows('view',$users)) {
         $users = User::latest()->paginate();
-        return view('cms.users.index',compact('users'));
+        return view('admin.layouts.users.all',compact('users'));
         }
 
         abort(403,'شما دسترسی به این صفحه را ندارید');
@@ -50,7 +50,7 @@ class UserController extends Controller
                 session()->flash('success','نقش کاربر با موفقیت تغییر یافت');
                 return redirect(route('users.index'));
             }
-            return redirect(RouteServiceProvider::PANEL);
+            return redirect(RouteServiceProvider::HOME);
         }
         abort(403,'شما دسترسی به این صفحه را ندارید');
     }

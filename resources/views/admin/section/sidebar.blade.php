@@ -10,7 +10,9 @@
             </li>
             <li><a href="{{ route('tags.index') }}" ><i class="fa fa-tags"></i> تگ ها</a>
             </li>
-            @can('view', User::class)
+            <li><a href="{{ route('comments.index') }}" ><i class="fa fa-comment"></i>نظرات</a>
+            </li>
+            @can('view',auth()->user())
             <li><a href="{{ route('users.index') }}"><i class="fa fa-users"></i>کاربران</a>
             </li>   
             @endcan
