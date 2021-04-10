@@ -10,16 +10,16 @@
                     <li title="برگشت"><a href="{{ route('categories.index') }}"><i class="fa fa-arrow-left"></i></a>
                     </li>
                 </ul>
-                
+
                 <div class="clearfix"></div>
             </div>
-            
+
             <div class="x_content">
                 <br/>
                 <form action="{{ route('categories.update',$category->slug) }}" method="POST"  id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
                    @include('admin.layouts.messages.error')
-                    
+
                     @csrf
                     @method('PUT')
                     <div class="form-group">
@@ -27,12 +27,12 @@
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input type="text" name="name" id="name" required="required" value="{{ $category->name }}"
+                            <input type="text" name="name" id="name" value="{{ $category->name }}"
                                    class="form-control col-md-7 col-xs-12" placeholder="نام دسته را وارد کنید...">
                         </div>
                     </div>
 
-                   
+
                     <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                             <a href="{{ route('categories.index') }}" class="btn btn-primary">انصراف</a>

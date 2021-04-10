@@ -26,7 +26,7 @@
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input type="text" name="name" id="name" required="required" value="{{ old('name') }}"
+                            <input type="text" name="name" id="name" value="{{ old('name') }}"
                                    class="form-control col-md-7 col-xs-12" placeholder="نام تگ را وارد کنید...">
                         </div>
                     </div>

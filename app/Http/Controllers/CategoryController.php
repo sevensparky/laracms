@@ -15,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::latest()->paginate(12);
+        $categories = Category::latest()->paginate(10);
         return view('admin.layouts.categories.all',compact('categories'));
     }
 
@@ -40,11 +40,9 @@ class CategoryController extends Controller
         $this->validate($request,[
             'name' => 'required|string|min:3|unique:categories'
         ]);
-
-        Category::create($request->only('name'));
-
-        toast('دسته مورد نظر با موفقیت ایجاد شد','success')->autoClose(2000);
-
+        
+        auth()->user()->categories()->create($request->only('name'));
+        toast('دسته مورد نظر با موفقیت ایجاد شد','success')->autoClose(3000);
         return redirect(route('categories.index'));
     }
 
@@ -67,7 +65,12 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('admin.layouts.categories.edit',compact('category'));
+        if (auth()->user()->id === $category->user_id) {
+            return view('admin.layouts.categories.edit',compact('category'));
+        } else {
+            toast('شما دسترسی لازم برای ویرایش این دسته را ندارید', 'warning')->autoClose(3000);
+            return back();
+        }
     }
 
     /**
@@ -84,7 +87,7 @@ class CategoryController extends Controller
         ]);
         
         $category->update($request->only('name'));
-        toast('دسته مورد نظر با موفقیت ویرایش شد','success')->autoClose(2000);
+        toast('دسته مورد نظر با موفقیت ویرایش شد','success')->autoClose(3000);
         return redirect(route('categories.index'));
     }
 
@@ -97,7 +100,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        toast('دسته مورد نظر با موفقیت حذف شد','success')->autoClose(2000);
+        toast('دسته مورد نظر با موفقیت حذف شد','success')->autoClose(3000);
         return redirect(route('categories.index'));
     }
 

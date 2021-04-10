@@ -15,6 +15,7 @@
 
         
       </section>
+      <a class="btn btn-xs btn-round btn-success mr-3" href="{{ route('home') }}">صفحه اصلی</a>
 
       @guest()
       <a class="btn btn-xs btn-round btn-success" href="{{ route('register') }}">ثبت نام</a>

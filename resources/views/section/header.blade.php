@@ -16,6 +16,10 @@
       *{
         font-family: Vazir !important
       }
+      i{
+        font-family: 'themify' !important;
+      }
+
     </style>
 
     <!-- Favicons -->

@@ -144,6 +144,7 @@ return array(
         'fileUrl' => 'آدرس فایل',
         'enSlug' => 'نامک انگلیسی',
         'percent' => 'درصد',
-        'image' => 'تصویر'
+        'image' => 'تصویر',
+        'category_id' => 'دسته بندی مقاله',
     ),
 );

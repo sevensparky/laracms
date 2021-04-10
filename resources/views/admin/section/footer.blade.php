@@ -1,12 +1,17 @@
-<!-- footer content -->
-        <footer class="hidden-print">
-            <div class="pull-left">
-            </div>
-            <div class="clearfix"></div>
-        </footer>
-        <!-- /footer content -->
+
+  <footer class="hidden-print">
+    <div class="pull-left">
+        <p style="visibility: hidden">
+            Gentelella - قالب پنل مدیریت بوت استرپ <a href="#">Colorlib</a> | پارسی شده توسط <a
+            href="#">مرتضی کریمی</a>
+        </p>
     </div>
+    <div class="clearfix"></div>
+</footer>
+
 </div>
+</div>
+
 <div id="lock_screen">
     <table>
         <tr>

@@ -5,17 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use Intervention\Image\Facades\Image;
-use Exception; 
-
+use Exception;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
 
 
-     public function __construct()
-     {
-         $this->middleware('verifyCategoriesCount')->only(['create','store']);
-     }
+    public function __construct()
+    {
+        $this->middleware('verifyCategoriesCount')->only(['create', 'store']);
+    }
 
 
     /**
@@ -26,7 +26,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::with('category')->latest()->paginate(10);
-        return view('admin.layouts.posts.all',compact('posts'));
+        return view('admin.layouts.posts.all', compact('posts'));
     }
 
     /**
@@ -45,30 +45,27 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostRequest $request)
+    public function store(Request $request)
     {
-    
         try {
 
-          if ($request->hasFile('image')) {
-              $file = $request->file('image');
-              $fileExtension = $file->getClientOriginalExtension();
-              $fileName = date('Ymdhis') . '.'. $fileExtension;
-              Image::make($file)->save(public_path('upload/posts/'). $fileName);
-          }
-
-          $post = Post::create(array_merge($request->only('title','category_id','description','content'),['image' => $fileName]));
-          if ($request->tags) {
-              $post->tags()->attach($request->tags);
-          }
-            toast('پست جدید با موفقیت ایجاد شد','success')->autoClose(2000);
-            return redirect(route('posts.index')); 
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $fileExtension = $file->getClientOriginalExtension();
+                $fileName = date('Ymdhis') . '.' . $fileExtension;
+                Image::make($file)->save(public_path('upload/posts/') . $fileName);
+            }
+            $post = auth()->user()->posts()->create(array_merge($request->only('title', 'category_id', 'description', 'content'), ['image' => $fileName]));
+            if ($request->tags) {
+                $post->tags()->attach($request->tags);
+            }
+            toast('پست جدید با موفقیت ایجاد شد', 'success')->autoClose(3000);
+            return redirect(route('posts.index'));
         } catch (Exception $e) {
-            toast('مشکلی رخ داده دوباره امتحان کنید','warning')->autoClose(2000);
-            session()->flash('error','مشکلی رخ داده: ' . $e);
+            toast('مشکلی رخ داده دوباره امتحان کنید', 'warning')->autoClose(3000);
+            session()->flash('error', 'مشکلی رخ داده: ' . $e);
             return back();
         }
-        
     }
 
     /**
@@ -79,7 +76,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('admin.layouts.posts.show', compact('post'));
     }
 
     /**
@@ -90,7 +87,12 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('admin.layouts.posts.edit',compact('post'));
+        if (auth()->user()->id === $post->user_id) {
+            return view('admin.layouts.posts.edit', compact('post'));
+        } else {
+            toast('شما دسترسی لازم برای ویرایش این مقاله را ندارید', 'warning')->autoClose(3000);
+            return back();
+        }
     }
 
     /*
@@ -102,28 +104,28 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
-        
+
+
         try {
-            unlink(public_path('upload/posts/'.$post->image));
-            if ($request->hasFile('image')){
+            unlink(public_path('upload/posts/' . $post->image));
+            if ($request->hasFile('image')) {
                 $file = $request->file('image');
                 $fileExtension = $file->getClientOriginalExtension();
                 $fileName = date('Ymdihs') . '.' . $fileExtension;
-                Image::make($file)->save(public_path('upload/posts/'.$fileName));
-                $post->update(array_merge($request->only('title','category_id','description','content'),['image' => $fileName]));
+                Image::make($file)->save(public_path('upload/posts/' . $fileName));
+                $post->update(array_merge($request->only('title', 'category_id', 'description', 'content'), ['image' => $fileName]));
+
                 if ($request->tags) {
                     $post->tags()->sync($request->tags);
                 }
-                session()->flash('success','!پست مورد نظر با موفقیت ویرایش شد');
-                toast('مقاله مورد نظر با موفقیت ویرایش شد','success')->autoClose(2000);
+                toast('مقاله مورد نظر با موفقیت ویرایش شد', 'success')->autoClose(3000);
                 return redirect(route('posts.index'));
             }
         } catch (Exception $e) {
-            toast('مشکلی رخ داده دوباره امتحان کنید','warning')->autoClose(2000);
-            session()->flash('error','مشکلی رخ داده: ' . $e);
+            toast('مشکلی رخ داده دوباره امتحان کنید', 'error')->autoClose(3000);
+            session()->flash('error', 'مشکلی رخ داده: ' . $e);
             return back();
         }
-        
     }
 
     /*
@@ -134,10 +136,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        unlink(public_path('upload/posts/'.$post->image));
+        unlink(public_path('upload/posts/' . $post->image));
         $post->delete();
-        toast('مقاله مورد نظر با موفقیت حذف شد','success')->autoClose(2000);
+        toast('مقاله مورد نظر با موفقیت حذف شد', 'success')->autoClose(3000);
         return redirect(route('posts.index'));
     }
-
 }

@@ -10,12 +10,12 @@
                 <div class="row gap-y">
   
                     @php
-                        $posts = \App\Models\Post::with('category')->paginate(6);
+                        $posts = \App\Models\Post::with('category')->latest()->paginate(15);
                     @endphp
                   @foreach ($posts as $post)
                   <div class="col-md-6">
                     <div class="card border hover-shadow-6 mb-6 d-block">
-                      <a href="#"><img class="card-img-top" src="{{ asset('upload/posts/'.$post->image) }}" alt="Card image cap"></a>
+                      <a href="#"><img class="card-img-top" src="{{ asset('upload/posts/'.$post->image) }}" alt="{{ $post->title }}" style="height: 250px"></a>
                       <div class="p-6 text-center">
                         <p><a class="small-5 text-lighter text-uppercase ls-2 fw-400" href="#">{{ $post->categoryName }}</a></p>
                         <h5 class="mb-0"><a class="text-dark" href="{{ route('single.page', $post->slug) }}">{{ $post->title }}</a></h5>
@@ -49,7 +49,7 @@
 
                   <h6 class="sidebar-title">دسته بندی ها</h6>
                   <div class="row link-color-default fs-14 lh-24">
-                  @foreach (\App\Models\Category::latest()->get() as $item)
+                  @foreach (\App\Models\Category::orderBy('id','desc')->take(6)->get() as $item)
                     <div class="col-6"><a href="#">{{ $item->name }}</a></div>
                   @endforeach
                   </div>
@@ -58,7 +58,7 @@
   
                   <h6 class="sidebar-title">برچسب ها</h6>
                   <div class="gap-multiline-items-1">
-                    @foreach (\App\Models\Tag::latest()->get() as $tag)
+                    @foreach (\App\Models\Tag::orderBy('id','desc')->take(6)->get() as $tag)
                     <a class="badge badge-secondary" href="#">{{ $tag->name }}</a>
                     @endforeach
                   </div>

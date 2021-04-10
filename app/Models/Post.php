@@ -5,6 +5,7 @@ namespace App\Models;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 use App\Models\Comment;
 
 class Post extends Model
@@ -56,6 +57,11 @@ class Post extends Model
    public function hasTag($tagId)
    {
        return in_array($tagId,$this->tags->pluck('id')->toArray());
+   }
+
+   public function user()
+   {
+        return $this->belongsTo(User::class);   
    }
 
    public function comments()

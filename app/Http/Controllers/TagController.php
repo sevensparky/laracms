@@ -7,16 +7,16 @@ use App\Models\Tag;
 
 class TagController extends Controller
 {
-    
-     /**
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $tags = Tag::latest()->paginate();
-        return view('admin.layouts.tags.all',compact('tags'));
+        $tags = Tag::latest()->paginate(10);
+        return view('admin.layouts.tags.all', compact('tags'));
     }
 
     /**
@@ -37,12 +37,12 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required|string|min:3'
         ]);
 
-        Tag::create($request->only('name'));
-        toast('برچسب (تگ) مورد نظر با موفقیت ایجاد شد','success')->autoClose(2000);
+        auth()->user()->tags()->create($request->only('name'));
+        toast('برچسب (تگ) مورد نظر با موفقیت ایجاد شد', 'success')->autoClose(3000);
         return redirect(route('tags.index'));
     }
 
@@ -65,7 +65,12 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
-        return view('admin.layouts.tags.edit',compact('tag'));
+        if (auth()->user()->id === $tag->user_id) {
+            return view('admin.layouts.tags.edit', compact('tag'));
+        } else {
+            toast('شما دسترسی لازم برای ویرایش این برچسب (تگ) را ندارید', 'warning')->autoClose(3000);
+            return back();
+        }
     }
 
     /**
@@ -78,7 +83,7 @@ class TagController extends Controller
     public function update(Request $request, Tag $tag)
     {
         $tag->update($request->only('name'));
-        toast('برچسب (تگ) مورد نظر با موفقیت ویرایش شد','success')->autoClose(2000);
+        toast('برچسب (تگ) مورد نظر با موفقیت ویرایش شد', 'success')->autoClose(3000);
         return redirect(route('tags.index'));
     }
 
@@ -91,8 +96,7 @@ class TagController extends Controller
     public function destroy(Tag $tag)
     {
         $tag->delete();
-        toast('برچسب (تگ) مورد نظر با موفقیت حذف شد','success')->autoClose(2000);
+        toast('برچسب (تگ) مورد نظر با موفقیت حذف شد', 'success')->autoClose(3000);
         return redirect(route('tags.index'));
     }
-
 }

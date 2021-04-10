@@ -24,6 +24,10 @@ Route::group(['middleware' => 'auth','prefix' => 'panel'],function(){
    Route::get('comments/{id}',[CommentController::class,'show'])->name('comments.show');
    Route::put('comments/accept/{id}',[CommentController::class,'accept'])->name('comments.accept');
    Route::put('comments/{id}',[CommentController::class,'reject'])->name('comments.reject');
+   Route::get('auth/change-password',[HomeController::class,'changePassword'])->name('change-password.view');
+   Route::post('auth/change-password/user',[HomeController::class,'authChangePassword'])->name('change-password.store');
+   Route::post('upload-image',[PanelController::class,'editorUploadImage'])->name('uploadimage.editor');
+
 });
 
 Route::group([],function(){

@@ -47,7 +47,7 @@
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
                                 <li><a href="{{ route('profile') }}"> نمایه</a></li>
                                 <li>
-                                    <a href="javascript:;">
+                                    <a href="{{ route('change-password.view') }}">
                                         <span>تغییر رمز عبور</span>
                                     </a>
                                 </li>

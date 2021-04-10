@@ -27,11 +27,11 @@
                         <td>{{ Str::limit($comment->comment,20) }}</td>
                         <td>
                             @if ($comment->status == 'unseen')
-                            <span class="text-warning">مشاهده نشده</span>
+                                <span class="label label-warning">مشاهده نشده</span>
                             @elseif ($comment->status == 'accepted')
-                                <span class="text-success">تایید شده</span>   
+                                <span class="label label-success">تایید شده</span>   
                             @else
-                            <span class="text-danger">رد شده</span>
+                                <span class="label label-danger">رد شده</span>
                             @endif
                         </td>
                         <td>

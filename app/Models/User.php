@@ -6,6 +6,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Post;
+use App\Models\Tag;
+use App\Models\Category;
 use App\Models\Comment;
 
 class User extends Authenticatable
@@ -42,6 +45,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    public function tags()
+    {
+        return $this->hasMany(Tag::class);
+    }
 
 
     public function comments()

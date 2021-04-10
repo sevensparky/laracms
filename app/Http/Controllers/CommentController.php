@@ -29,11 +29,11 @@ class CommentController extends Controller
     {
         $request = Comment::findOrFail($id);
         if ($request->status == 'accepted' || $request->status == 'rejected') {
-            toast('وضعیت نظر قبلا تغییر کرده است','warning')->autoClose(4000);
+            toast('وضعیت نظر قبلا تغییر کرده است','warning')->autoClose(3000);
             return back();
         }else{
         $request->update(['status' => 'accepted']);
-        toast('نظر با موفقیت تایید شد','success')->autoClose(2000);
+        toast('نظر با موفقیت تایید شد','success')->autoClose(3000);
         return redirect(route('comments.index'));
         }
     }
@@ -49,11 +49,11 @@ class CommentController extends Controller
     {
         $request = Comment::findOrFail($id);
         if ($request->status == 'accepted' || $request->status == 'rejected') {
-            toast('وضعیت نظر قبلا تغییر کرده است','warning')->autoClose(4000);
+            toast('وضعیت نظر قبلا تغییر کرده است','warning')->autoClose(3000);
             return back();
         } 
         $request->update(['status' => 'rejected']);
-        toast('نظر با موفقیت رد شد','success')->autoClose(2000);
+        toast('نظر با موفقیت رد شد','success')->autoClose(3000);
         return redirect(route('comments.index'));
     }
 

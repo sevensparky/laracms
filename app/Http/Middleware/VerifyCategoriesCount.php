@@ -18,7 +18,7 @@ class VerifyCategoriesCount
     public function handle(Request $request, Closure $next)
     {
         if (Category::all()->count() == 0) {
-            session()->flash('error','!دسته ای جهت افزودن پست یافت نشد بنابراین شما نمی توانید پست جدیدی ایجاد کنید');
+            toast('دسته ای جهت افزودن پست یافت نشد بنابراین شما نمی توانید پست جدیدی ایجاد کنید','error')->autoClose(7000);
             return redirect(route('categories.index'));
         }
         
