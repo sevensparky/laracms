@@ -10,14 +10,14 @@
                     <li title="برگشت"><a href="{{ route('posts.index') }}"><i class="fa fa-arrow-left"></i></a>
                     </li>
                 </ul>
-                
+
                 <div class="clearfix"></div>
             </div>
-            
+
             <div class="x_content">
                 <br/>
                 <form action="{{ route('posts.update',$post->slug) }}" method="POST" enctype="multipart/form-data"  id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-                    
+
                    @include('admin.layouts.messages.error')
 
                     @csrf
@@ -51,8 +51,8 @@
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <textarea type="text" id="description" 
-                            class="form-control col-md-7 col-xs-12" name="description" 
+                            <textarea type="text" id="description"
+                            class="form-control col-md-7 col-xs-12" name="description"
                              rows="3" placeholder="توضیحات کوتاهی را وارد کنید..." style="resize: none;">{{ $post->description }}</textarea>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                        
+
                              <div class="x_content">
                                 <div id="alerts"></div>
                                 <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor">
@@ -72,7 +72,7 @@
                                         <ul class="dropdown-menu">
                                         </ul>
                                     </div>
-            
+
                                     <div class="btn-group">
                                         <a class="btn dropdown-toggle" data-toggle="dropdown" title="اندازه فونت"><i
                                                 class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
@@ -94,7 +94,7 @@
                                             </li>
                                         </ul>
                                     </div>
-            
+
                                     <div class="btn-group">
                                         <a class="btn" data-edit="bold" title="درشت (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
                                         <a class="btn" data-edit="italic" title="ایتالیک (Ctrl/Cmd+I)"><i
@@ -104,7 +104,7 @@
                                         <a class="btn" data-edit="underline" title="زیرخط (Ctrl/Cmd+U)"><i
                                                 class="fa fa-underline"></i></a>
                                     </div>
-            
+
                                     <div class="btn-group">
                                         <a class="btn" data-edit="insertunorderedlist" title="لیست دایره ای"><i
                                                 class="fa fa-list-ul"></i></a>
@@ -114,9 +114,9 @@
                                                 class="fa fa-dedent"></i></a>
                                         <a class="btn" data-edit="indent" title="دنداره (Tab)"><i class="fa fa-indent"></i></a>
                                     </div>
-            
+
                                     <div class="btn-group">
-            
+
                                         <a class="btn" data-edit="justifyright" title="تراز راست (Ctrl/Cmd+R)"><i
                                                 class="fa fa-align-right"></i></a>
                                         <a class="btn" data-edit="justifycenter" title="وسط (Ctrl/Cmd+E)"><i
@@ -126,7 +126,7 @@
                                         <a class="btn" data-edit="justifyfull" title="جاستیفای (Ctrl/Cmd+J)"><i
                                                 class="fa fa-align-justify"></i></a>
                                     </div>
-            
+
                                     <div class="btn-group">
                                         <a class="btn dropdown-toggle" data-toggle="dropdown" title="ابرلینک"><i
                                                 class="fa fa-link"></i></a>
@@ -136,7 +136,7 @@
                                         </div>
                                         <a class="btn" data-edit="unlink" title="حذف ابر لینک"><i class="fa fa-cut"></i></a>
                                     </div>
-            
+
                                     <div class="btn-group">
                                         <a class="btn" data-edit="undo" title="باطل کردن (Ctrl/Cmd+Z)"><i
                                                 class="fa fa-undo"></i></a>
@@ -145,11 +145,11 @@
                                     </div>
                                 </div>
                                 <textarea id="descr" name="content" class="editor-wrapper" style="width: 719px; height: 272px;resize:none">{{$post->content}}</textarea>
-            
-                                <br/>   
-            
+
+                                <br/>
+
                             </div>
-                        
+
                             </div>
                     </div>
 
@@ -162,7 +162,7 @@
 
                     <div class="col-md-4 col-sm-12 col-xs-12 form-group">
 
-                       
+
 
                         <span class="btn btn-primary btn-file">
                            انتخاب تصویر
@@ -183,17 +183,17 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <img src="{{ asset("upload/posts/$post->image") }}" heigth="350" width="280">  
+                            <img src="{{ asset("upload/posts/$post->image") }}" heigth="350" width="280">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tags">تگ های مقاله
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tags">برچسب های مقاله
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
                             <select name="tags[]" id="tags"  class="form-control col-md-7 col-xs-12" multiple>
-                                <option value="">تگ های مربوطه را انتخاب کنید...</option>
+                                <option value="">برچسب های مربوطه را انتخاب کنید...</option>
                                 @foreach (\App\Models\Tag::latest()->get() as $tag)
                                 <option value="{{ $tag->id }}" {{ $post->hasTag($tag->id) ? 'selected' : ''}}>{{ $tag->name }}</option>
                                @endforeach
@@ -238,7 +238,7 @@
   display: block;
 }
 
-</style>    
+</style>
 @endpush
 
 @push('scripts')

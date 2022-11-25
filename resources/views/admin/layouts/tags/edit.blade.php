@@ -4,7 +4,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>ویرایش تگ
+                <h2>ویرایش برچسب
                 </h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li title="برگشت"><a href="{{ route('tags.index') }}"><i class="fa fa-arrow-left"></i></a>
@@ -23,12 +23,12 @@
                     @csrf
                     @method('PUT')
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">نام تگ
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">نام برچسب
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
                             <input type="text" name="name" id="name" value="{{ $tag->name }}"
-                                   class="form-control col-md-7 col-xs-12" placeholder="نام تگ را وارد کنید...">
+                                   class="form-control col-md-7 col-xs-12" placeholder="نام برچسب را وارد کنید...">
                         </div>
                     </div>
 

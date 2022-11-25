@@ -135,7 +135,7 @@ return array(
         "imageUrl" => "تصویر",
         "videoUrl" => "آدرس ویدیو",
         "slug" => "نامک",
-        "tags" => "تگ ها",
+        "tags" => "برچسب ها",
         "category" => "دسته",
         "story" => "داستان",
         'number' => 'شماره قسمت',

@@ -37,11 +37,37 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'name' => 'required|string|min:3|unique:categories'
-        ]);
-        
-        auth()->user()->categories()->create($request->only('name'));
+        // $this->validate($request,[
+        //     'name' => 'required|string|min:3|unique:categories'
+        // ]);
+
+        // auth()->user()->categories()->create($request->only('name'));
+
+        $arrayItem = array();
+
+        foreach ($request->name as $value) {
+            // dump($value);
+
+            $arrayItem[] = $value;
+
+            // $names[] = array_push($value);
+
+
+
+            // $category = new Category();
+            // $category->name = $value;
+            // $category->user_id = 5;
+            // $category->save();
+        }
+        $names = implode(',', $arrayItem);
+
+        $category = new Category();
+        $category->name = $names;
+        $category->user_id = auth()->id();
+        $category->save();
+
+
+        // die();
         toast('دسته مورد نظر با موفقیت ایجاد شد','success')->autoClose(3000);
         return redirect(route('categories.index'));
     }
@@ -85,7 +111,7 @@ class CategoryController extends Controller
         $this->validate($request,[
             'name' => 'required|string|min:3|unique:categories'
         ]);
-        
+
         $category->update($request->only('name'));
         toast('دسته مورد نظر با موفقیت ویرایش شد','success')->autoClose(3000);
         return redirect(route('categories.index'));

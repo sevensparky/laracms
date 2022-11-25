@@ -24,8 +24,8 @@
         <div class="tile-stats">
             <div class="icon"><i class="fa fa-tags"></i></div>
             <div class="count">{{ count(\App\Models\Tag::all()) }}</div>
-            <h3>تگ ها</h3>
-            <p>همه تگ های ایجاد شده</p>
+            <h3>برچسب ها</h3>
+            <p>همه برچسب های ایجاد شده</p>
         </div>
     </div>
     <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -42,7 +42,7 @@
     <div class="col-md-6">
         <div class="x_panel">
             <div class="x_title">
-                <h2>آخرین کاربران 
+                <h2>آخرین کاربران
                 </h2>
                 <h5 class="pull-left">
                     <a href="{{ route('users.index') }}">مشاهده</a>
@@ -125,7 +125,7 @@
     <div class="col-md-6">
         <div class="x_panel">
             <div class="x_title">
-                <h2>آخرین تگ ها 
+                <h2>آخرین برچسب ها
                 </h2>
                 <h5 class="pull-left">
                     <a href="{{ route('tags.index') }}">مشاهده</a>
@@ -169,8 +169,8 @@
         <div class="tile-stats">
             <div class="icon"><i class="fa fa-tags"></i></div>
             <div class="count">{{ count(\App\Models\Tag::where('user_id',auth()->user()->id)->get()) }}</div>
-            <h3>تگ ها</h3>
-            <p>همه تگ های ایجاد شده توسط شما</p>
+            <h3>برچسب ها</h3>
+            <p>همه برچسب های ایجاد شده توسط شما</p>
         </div>
     </div>
     <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -244,7 +244,7 @@
     <div class="col-md-6">
         <div class="x_panel">
             <div class="x_title">
-                <h2>آخرین دسته ها 
+                <h2>آخرین دسته ها
                 </h2>
                 <h5 class="pull-left">
                     <a href="{{ route('categories.index') }}">مشاهده</a>
@@ -266,7 +266,7 @@
     <div class="col-md-6">
         <div class="x_panel">
             <div class="x_title">
-                <h2>آخرین تگ ها 
+                <h2>آخرین برچسب ها
                 </h2>
                 <h5 class="pull-left">
                     <a href="{{ route('tags.index') }}">مشاهده</a>

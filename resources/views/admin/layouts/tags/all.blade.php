@@ -5,7 +5,7 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
         <div class="x_title">
-            <h2>همه تگ ها ایجاد شده توسط شما</h2>
+            <h2>همه برچسب ها ایجاد شده توسط شما</h2>
             <ul class="nav navbar-right panel_toolbox">
                 <li><a href="{{ route('tags.create') }}"><i class="fa fa-plus"></i></a>
                 </li>
@@ -16,13 +16,13 @@
             <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
                 <thead>
                 <tr>
-                    <th>نام تگ</th>
+                    <th>نام برچسب</th>
                     <th>تنظیمات</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                    
+
                     @foreach ($tags->where('user_id' , auth()->user()->id) as $tag)
                     <tr>
                         <td>{{ $tag->name }}</td>
@@ -43,12 +43,12 @@
             {{ $tags->links() }}
         </div>
     </div>
-</div> 
+</div>
 @else
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
         <div class="x_title">
-            <h2>همه تگ ها</h2>
+            <h2>همه برچسب ها</h2>
             <ul class="nav navbar-right panel_toolbox">
                 <li><a href="{{ route('tags.create') }}"><i class="fa fa-plus"></i></a>
                 </li>
@@ -59,13 +59,13 @@
             <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
                 <thead>
                 <tr>
-                    <th>نام تگ</th>
+                    <th>نام برچسب</th>
                     <th>تنظیمات</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                    
+
                     @foreach ($tags as $tag)
                     <tr>
                         <td>{{ $tag->name }}</td>
@@ -87,6 +87,6 @@
             {{ $tags->links() }}
         </div>
     </div>
-</div> 
+</div>
 @endif
 @endsection

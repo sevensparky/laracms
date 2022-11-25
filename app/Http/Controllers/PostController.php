@@ -63,7 +63,7 @@ class PostController extends Controller
             return redirect(route('posts.index'));
         } catch (Exception $e) {
             toast('مشکلی رخ داده دوباره امتحان کنید', 'warning')->autoClose(3000);
-            session()->flash('error', 'مشکلی رخ داده: ' . $e);
+//            session()->flash('error', 'مشکلی رخ داده: ' . $e);
             return back();
         }
     }
@@ -104,8 +104,6 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
-
-
         try {
             unlink(public_path('upload/posts/' . $post->image));
             if ($request->hasFile('image')) {
