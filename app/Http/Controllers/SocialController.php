@@ -48,17 +48,6 @@ class SocialController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Social  $social
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Social $social)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      *
@@ -81,16 +70,5 @@ class SocialController extends Controller
         Social::query()->first()->update($request->all());
         toast('آیتم با موفقیت ویرایش شد','success')->autoClose(3000);
         return redirect(route('social.index'));
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Social  $social
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Social $social)
-    {
-        //
     }
 }

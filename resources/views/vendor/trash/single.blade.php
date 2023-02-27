@@ -58,7 +58,7 @@
 
                 @foreach ($comments as $item)
                 <div class="media d-flex justify-content-end">
-                  <img class="avatar avatar-sm mr-4 d-flex justify-content-end" src="{{ asset('images/user.png') }}" alt="{{ $item->user->name }}">
+                  <img class="avatar avatar-sm mr-4 d-flex justify-content-end" src="{{ auth()->user()->image != null ? asset('images/'. auth()->user()->image) : asset('images/user.png') }}" alt="{{ $item->user->name }}">
 
                   <div class="media-body">
                     <div class="small-1 text-right">

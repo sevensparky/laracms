@@ -12,7 +12,11 @@
                 <!-- menu profile quick info -->
                 <div class="profile clearfix">
                     <div class="profile_pic">
-                        <img src="{{ asset("images/user.png") }}" class="img-circle profile_img">
+                        @if (auth()->user()->image != null)
+                            <img src="{{ asset("storage/". auth()->user()->image) }}" class="profile-sidebar" /> 
+                        @else
+                            <img src="{{ asset("images/user.png") }}" height="128" width="128" />
+                        @endif
                     </div>
                     <div class="profile_info">
                         <span>خوش آمدید,</span>
@@ -41,7 +45,11 @@
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
                                aria-expanded="false">
-                                <img src="{{ asset("images/user.png") }}" alt="">{{ auth()->user()->name }}
+                               @if (auth()->user()->image != null)
+                               <img src="{{ asset("storage/". auth()->user()->image) }}" class="profile-nav" height="128" width="128" /> 
+                                @else
+                                    <img src="{{ asset("images/user.png") }}" height="128" width="128" />
+                                @endif
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">

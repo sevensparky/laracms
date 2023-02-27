@@ -15,28 +15,23 @@ class CreateNewsTable extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
-            $table->string('headline')->nullable();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->string('title');
-            $table->string('service')->nullable();
-            $table->string('tag')->nullable();
+            $table->string('slug');
+            $table->string('tags')->nullable();
             $table->text('description')->nullable();
             $table->string('external_link')->nullable();
             $table->longText('content')->nullable();
             $table->longText('voice')->nullable();
             $table->longText('video')->nullable();
             $table->longText('image')->nullable();
-            $table->string('news_type')->nullable();
-            $table->string('news_production_type')->nullable();
-            $table->string('news_source')->nullable();
-            $table->string('news_source_address')->nullable();
-            $table->string('message_end_news')->nullable()->comment("Message at the end of the news");
-            $table->string('company')->nullable();
-            $table->string('author')->nullable();
-            $table->string('journalist')->nullable();
-            $table->string('photographer')->nullable();
-            $table->string('translator')->nullable();
-            $table->string('writer')->nullable();
-            $table->string('published_at')->nullable();
+            $table->text('picture')->nullable();
+            $table->string('source_address')->nullable();
+            $table->enum('status', ['active', 'inactive'])->default('inactive');
+            $table->boolean('main_news')->default(false);
+            $table->boolean('headline_news')->default(false);
+            $table->boolean('magazine')->default(false);
             $table->timestamps();
         });
     }

@@ -27,7 +27,7 @@
                     
                     @foreach ($posts->where('user_id',auth()->user()->id) as $article)
                     <tr>
-                        <td><img src="{{ asset("upload/posts/$article->image") }}" heigth="80" width="80"></td>
+                        <td><img src="{{ asset("storage/$article->image") }}" heigth="80" width="80"></td>
                         <td>{{ $article->title }}</td>
                         <td>{{ $article->categoryName }}</td>
                         <td>
@@ -77,7 +77,7 @@
                     
                     @foreach ($posts as $article)
                     <tr>
-                        <td><img src="{{ asset("upload/posts/$article->image") }}" heigth="80" width="80"></td>
+                        <td><img src="{{ asset("storage/$article->image") }}" heigth="80" width="80"></td>
                         <td>{{ $article->title }}</td>
                         <td>{{ $article->categoryName }}</td>
                         <td>

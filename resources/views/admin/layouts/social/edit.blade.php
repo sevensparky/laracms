@@ -4,7 +4,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>بخش ایجاد شبکه های اجتماعی
+                    <h2>بخش شبکه های اجتماعی
                     </h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li title="برگشت"><a href="{{ route('social.index') }}"><i class="fa fa-arrow-left"></i></a>
@@ -152,14 +152,14 @@
                                 <div class="col-lg-6">
                                     <div class="input-group mb-3">
                                         <div class="input-group-addon">
-                                            <span class="input-group-text" id="aparat">آپارات</span>
+                                            <span class="input-group-text" id="linkedin">لینکدین</span>
                                         </div>
-                                        <input type="text" class="form-control" name="aparat" id="aparat"
+                                        <input type="text" class="form-control" name="linkedin" id="linkedin"
                                                placeholder="آدرس صفحه یا آیدی خود را وارد کنید.."
-                                               aria-describedby="aparat" value="{{ $social->aparat }}"
+                                               aria-describedby="linkedin" value="{{ $social->linkedin }}"
                                         >
                                     </div>
-                                    @error('aparat')
+                                    @error('linkedin')
                                     <small class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -167,56 +167,6 @@
 
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <div class="row">
-
-                                <div class="col-lg-4">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-addon">
-                                            <span class="input-group-text" id="soroush">سروش</span>
-                                        </div>
-                                        <input type="text" class="form-control" name="soroush" id="soroush"
-                                               placeholder="شماره تلفن همراه خود را وارد کنید.."
-                                               aria-describedby="soroush" value="{{ $social->soroush }}"
-                                        >
-                                    </div>
-                                    @error('soroush')
-                                    <small class="form-text text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                                <div class="col-lg-4">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-addon">
-                                            <span class="input-group-text" id="igap">آی گپ</span>
-                                        </div>
-                                        <input type="text" class="form-control" name="igap" id="igap"
-                                               placeholder="شماره تلفن همراه خود را وارد کنید.." aria-describedby="igap"
-                                               value="{{ $social->igap }}"
-                                        >
-                                    </div>
-                                    @error('igap')
-                                    <small class="form-text text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                                <div class="col-lg-4">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-addon">
-                                            <span class="input-group-text" id="eta">ایتا</span>
-                                        </div>
-                                        <input type="text" class="form-control" name="eta" id="eta"
-                                               placeholder="شماره تلفن همراه خود را وارد کنید.." aria-describedby="eta"
-                                               value="{{ $social->eta }}" >
-                                    </div>
-                                    @error('eta')
-                                    <small class="form-text text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
 
                         <div class="form-group">
                             <div class="d-flex justify-content-between">

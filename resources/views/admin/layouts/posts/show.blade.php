@@ -13,7 +13,7 @@
 
             <div class="col-md-7 col-sm-7 col-xs-12">
                 <div class="product-image">
-                    <img src="{{ asset("upload/posts/$post->image") }}"  />
+                    <img src="{{ asset("storage/$post->image") }}"  />
                 </div>
             </div>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
+use App\Services\CommonService;
 use Intervention\Image\Facades\Image;
 use Exception;
 use Illuminate\Http\Request;
@@ -11,12 +12,15 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
 
-
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('verifyCategoriesCount')->only(['create', 'store']);
     }
-
 
     /**
      * Display a listing of the resource.
@@ -42,30 +46,34 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\PostRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
+
         try {
 
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
                 $fileExtension = $file->getClientOriginalExtension();
                 $fileName = date('Ymdhis') . '.' . $fileExtension;
-                Image::make($file)->save(public_path('upload/posts/') . $fileName);
+                $file->move(storage_path('app/public/'), $fileName);
             }
-            $post = auth()->user()->posts()->create(array_merge($request->only('title', 'category_id', 'description', 'content'), ['image' => $fileName]));
+            $post = auth()->user()->posts()->create(array_merge($request->only('title', 'category_id', 'description', 'content'), [
+                'image' => CommonService::pictureUpload($request, 'image')
+            ]));
             if ($request->tags) {
                 $post->tags()->attach($request->tags);
             }
             toast('پست جدید با موفقیت ایجاد شد', 'success')->autoClose(3000);
             return redirect(route('posts.index'));
         } catch (Exception $e) {
+            dd($e);
             toast('مشکلی رخ داده دوباره امتحان کنید', 'warning')->autoClose(3000);
-//            session()->flash('error', 'مشکلی رخ داده: ' . $e);
             return back();
         }
+
     }
 
     /**
@@ -139,4 +147,15 @@ class PostController extends Controller
         toast('مقاله مورد نظر با موفقیت حذف شد', 'success')->autoClose(3000);
         return redirect(route('posts.index'));
     }
+
+    public function uploadImage($request, $filename)
+    {
+        if ($request->hasFile($filename)) {
+            $file = $request->file($filename);
+            $newFileName = date('Ymdhis') . '.' . strtolower($file->getClientOriginalExtension());
+            $file->move(storage_path('public/app/'), $newFileName);
+            return $newFileName;
+        }
+    }
+
 }

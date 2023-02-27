@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Tag;
+use App\Services\CommonService;
 
 class TagController extends Controller
 {
@@ -15,8 +16,9 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::latest()->paginate(10);
-        return view('admin.layouts.tags.all', compact('tags'));
+        return view('admin.layouts.tags.all', [
+            'tags' => $this->allTagsHandle(5)
+        ]);
     }
 
     /**
@@ -46,16 +48,6 @@ class TagController extends Controller
         return redirect(route('tags.index'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\tag  $tag
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Tag $tag)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -98,5 +90,18 @@ class TagController extends Controller
         $tag->delete();
         toast('برچسب (تگ) مورد نظر با موفقیت حذف شد', 'success')->autoClose(3000);
         return redirect(route('tags.index'));
+    }
+
+    /**
+     * 
+     * handle all tags if owner created or not 
+     * also admin can see all them
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function allTagsHandle()
+    {
+        return CommonService::handleAllDiffusion(resolve(Tag::class));
     }
 }

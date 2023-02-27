@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 class FaqController extends Controller
 {
 
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -20,7 +25,7 @@ class FaqController extends Controller
      */
     public function index()
     {
-        $faqs = Faq::latest()->paginate(10);
+        $faqs = Faq::query()->orderBy('id', 'DESC')->paginate(10);
         return view('admin.layouts.faqs.all', compact('faqs'));
     }
 
@@ -47,20 +52,9 @@ class FaqController extends Controller
             'answer' => 'required|min:5'
         ]);
 
-       Faq::create($request->all());
-        toast('سوال با موفقیت ایجاد شد','success')->autoClose(3000);
+        Faq::create($request->all());
+        toast('سوال با موفقیت ایجاد شد', 'success')->autoClose(3000);
         return redirect(route('faqs.index'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Faq  $faq
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Faq $faq)
-    {
-        //
     }
 
     /**
@@ -89,7 +83,7 @@ class FaqController extends Controller
         ]);
 
         $faq->update($request->all());
-        toast('سوال مورد نظر با موفقیت ویرایش شد','success')->autoClose(3000);
+        toast('سوال مورد نظر با موفقیت ویرایش شد', 'success')->autoClose(3000);
         return redirect(route('faqs.index'));
     }
 
@@ -102,7 +96,7 @@ class FaqController extends Controller
     public function destroy(Faq $faq)
     {
         $faq->delete();
-        toast('سوال مورد نظر با موفقیت حذف شد','success')->autoClose(3000);
+        toast('سوال مورد نظر با موفقیت حذف شد', 'success')->autoClose(3000);
         return back();
     }
 }

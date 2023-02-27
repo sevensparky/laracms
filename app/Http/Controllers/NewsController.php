@@ -2,13 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewsRequest;
+use App\Models\Category;
 use App\Models\News;
+use App\Services\CommonService;
 use App\Services\ImageFileService;
-use App\Services\MediaUploadService;
-use Illuminate\Http\Request;
+use Exception;
+use Illuminate\Support\Facades\File;
 
 class NewsController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('verifyCategoriesCount')->only(['create', 'edit']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +30,7 @@ class NewsController extends Controller
     public function index()
     {
         return view('admin.layouts.news.all', [
-            'news' => News::latest()->paginate(10)
+            'news' => News::latest()->paginate(1000)
         ]);
     }
 
@@ -28,67 +41,35 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return view('admin.layouts.news.create');
+        return view('admin.layouts.news.create', [
+            'categories' => Category::all()
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\NewsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewsRequest $request)
     {
+        try {
+            News::create(array_merge($request->validated(), [
+                'user_id' => auth()->id(),
+                'picture' => CommonService::pictureUpload($request, 'picture'),
+                'image' => ImageFileService::upload($request, 'image'),
+                'video' => ImageFileService::upload($request, 'video'),
+                'voice' => ImageFileService::upload($request, 'voice'),
+                'tags' => [$request->tags]
+            ]));
+        } catch (Exception $e) {
+            toast('مشکلی رخ داده', 'danger')->autoClose(3000);
+            return back();
+        }
 
-        // dd($request->all());
-        // if ($request->hasFile('image')) {
-            // $file = $request->file('image');
-            // $fileExtension = strtolower($file->getClientOriginalExtension());
-            // $fileName = date('Ymdhis') . '.' . $fileExtension;
-            // $directoryPath = "app/public/";
-            // $result = $file->move(storage_path($directoryPath), $fileName);
-        // }
-
-        $news = new News();
-        $news->company = multipleItems($request->company);
-        $news->author = multipleItems($request->author);
-        $news->journalist = multipleItems($request->journalist);
-        $news->photographer = multipleItems($request->photographer);
-        $news->translator = multipleItems($request->translator);
-        $news->writer = multipleItems($request->writer);
-        $news->headline = $request->headline;
-        $news->title = $request->title;
-        $news->service = $request->service;
-        $news->tag = $request->tag;
-        $news->image = ImageFileService::upload($request, 'image');
-        $news->video = ImageFileService::upload($request, 'video');
-        $news->voice = ImageFileService::upload($request, 'voice');
-        // $news->image = MediaUploadService::handle($request, 'image');
-        $news->description = $request->description;
-        $news->external_link = $request->external_link;
-        $news->content = $request->content;
-        $news->news_type = $request->news_type;
-        $news->news_production_type = $request->news_production_type;
-        $news->news_source = $request->news_source;
-        $news->news_source_address = $request->news_source_address;
-        $news->message_end_news = $request->message_end_news;
-        // dd($news);
-        $news->save();
-
-        // dd($request->all());
-
-        return redirect(route('news.index'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
-     */
-    public function show(News $news)
-    {
-        //
+        toast('خبر مورد نظر با موفقیت اضافه شد', 'success')->autoClose(3000);
+        return to_route('news.index');
     }
 
     /**
@@ -99,19 +80,34 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        return view('admin.layouts.news.edit', compact('news'));
+        $categories = Category::all();
+
+        return view('admin.layouts.news.edit', compact('news', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\NewsRequest  $request
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(NewsRequest $request, News $news)
     {
+        try {
+            $news->update(array_merge($request->validated(), [
+                'user_id' => auth()->id(),
+                'picture' => CommonService::pictureUpload($request, 'picture', $news->picture),
+                'image' => ImageFileService::upload($request, 'image'),
+                'video' => ImageFileService::upload($request, 'video'),
+                'voice' => ImageFileService::upload($request, 'voice'),
+            ]));
+        } catch (Exception $e) {
+            toast('مشکلی رخ داده', 'danger')->autoClose(3000);
+        }
 
+        toast('خبر مورد نظر با موفقیت ویرایش شد', 'success')->autoClose(3000);
+        return redirect()->route('news.index');
     }
 
     /**
@@ -122,6 +118,23 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
-        //
+        if (File::exists(storage_path('app/public/' . $news->picture))) {
+            File::delete(storage_path('app/public/' . $news->picture));
+        }
+        $news->delete();
+        toast('خبر مورد نظر با موفقیت حذف شد', 'success')->autoClose(3000);
+        return back();
+    }
+
+    /**
+     * change news status
+     *
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function changeNewsStatus($id): \Illuminate\Http\RedirectResponse
+    {
+        CommonService::changeStatus(resolve(News::class), $id);
+        return back();
     }
 }

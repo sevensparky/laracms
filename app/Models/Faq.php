@@ -10,6 +10,11 @@ class Faq extends Model
 {
     use HasFactory, Sluggable;
 
+    /**
+     * to specify those fields which are not mass assignable
+     *
+     * @var array
+     */
     protected $guarded = [];
 
     /**
@@ -26,11 +31,13 @@ class Faq extends Model
         ];
     }
 
-    public function getRouteKeyName()
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }
-
-
-
 }

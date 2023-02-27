@@ -4,7 +4,7 @@
     <div class="x_panel">
         <div class="x_title">
             <ul class="nav navbar-right panel_toolbox">
-                <li title="برگشت"><a href="#"><i class="fa fa-arrow-left"></i></a>
+                <li title="برگشت"><a href="{{ route('panel.index') }}"><i class="fa fa-arrow-left"></i></a>
                 </li>
             </ul>
             <div class="clearfix"></div>
@@ -13,7 +13,11 @@
 
             <div class="col-md-4 col-sm-4 col-xs-12">
                 <div >
-                    <img src="{{ asset("images/user.png") }}" height="128" width="128" />
+                    @if (auth()->user()->image != null)
+                        <img src="{{ asset("storage/". auth()->user()->image) }}" class="profile-page" height="128" width="128" /> 
+                    @else
+                        <img src="{{ asset("images/user.png") }}" height="128" width="128" />
+                    @endif
                 </div>
             </div>
 
@@ -25,15 +29,10 @@
                 <h5>{{ auth()->user()->email }}</h5>
                 <br/>
                 <h5 class="prod_title">عضویت در تاریخ</h5>
-                <h5>{{ \Carbon\Carbon::parse(auth()->user()->created_at)->diffForHumans() }}</h5>
+                <h5>{{ definedDateFormat(auth()->user()->created_at) }}</h5>
                 <br/>
 
-                <form action="{{ route('panel.index') }}" method="post">
-                    @csrf   
-                    @method('GET')
-                    <a href="#" class="btn btn-warning">ویرایش</a>
-                    <button type="submit" class="btn btn-primary">تایید</button>
-                </form>
+                <a href="{{ route('edit.profile') }}" class="btn btn-warning">ویرایش</a>
             </div>
         </div>
     </div>

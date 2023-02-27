@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Services\CommonService;
 
 class CategoryController extends Controller
 {
@@ -11,18 +12,19 @@ class CategoryController extends Controller
      /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index()
     {
-        $categories = Category::latest()->paginate(10);
-        return view('admin.layouts.categories.all',compact('categories'));
+        return view('admin.layouts.categories.all', [
+            'categories' => $this->allCategoriesHandle()
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
@@ -32,55 +34,16 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\CategoryRequest
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request): \Illuminate\Http\Response
     {
-        // $this->validate($request,[
-        //     'name' => 'required|string|min:3|unique:categories'
-        // ]);
+        auth()->user()->categories()->create($request->validated());
 
-        // auth()->user()->categories()->create($request->only('name'));
-
-        $arrayItem = array();
-
-        foreach ($request->name as $value) {
-            // dump($value);
-
-            $arrayItem[] = $value;
-
-            // $names[] = array_push($value);
-
-
-
-            // $category = new Category();
-            // $category->name = $value;
-            // $category->user_id = 5;
-            // $category->save();
-        }
-        $names = implode(',', $arrayItem);
-
-        $category = new Category();
-        $category->name = $names;
-        $category->user_id = auth()->id();
-        $category->save();
-
-
-        // die();
         toast('دسته مورد نظر با موفقیت ایجاد شد','success')->autoClose(3000);
-        return redirect(route('categories.index'));
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        //
+        return redirect(route('categories.index'));
     }
 
     /**
@@ -102,18 +65,16 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\CategoryRequest  $request
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
-        $this->validate($request,[
-            'name' => 'required|string|min:3|unique:categories'
-        ]);
+        $category->update($request->validated());
 
-        $category->update($request->only('name'));
         toast('دسته مورد نظر با موفقیت ویرایش شد','success')->autoClose(3000);
+
         return redirect(route('categories.index'));
     }
 
@@ -126,9 +87,34 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
+
         toast('دسته مورد نظر با موفقیت حذف شد','success')->autoClose(3000);
-        return redirect(route('categories.index'));
+
+        return back();
     }
 
+    /**
+     *  Change status of specified category
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function changeCategoryStatus($id)
+    {
+        CommonService::changeStatus(resolve(Category::class), $id);
+        return back();
+    }
 
+    /**
+     *
+     * handle all categories if owner created or not
+     * also admin can see all them
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function allCategoriesHandle()
+    {
+        return CommonService::handleAllDiffusion(resolve(Category::class));
+    }
 }

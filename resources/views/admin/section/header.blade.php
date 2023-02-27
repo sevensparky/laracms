@@ -18,6 +18,34 @@
 
     <link href="{{ asset('bin/css/custom.min.css') }}" rel="stylesheet">
 
+    <style>
+        .profile-nav{
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            display: inline-block;
+            /* padding: 20px; */
+        }
+    
+        .profile-sidebar{
+            height: 10rem;
+            width: 10rem;
+            border-radius: 50%;
+            display: inline-block;
+            padding: 20px;
+        }
+    
+        .profile-page{
+            height: 20rem;
+            width: 20rem;
+            border-radius: 50%;
+            display: inline-block;
+            padding: 20px;
+        }
+    
+    
+    </style> 
+
     @stack('styles')
 
 </head>

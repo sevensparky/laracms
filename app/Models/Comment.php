@@ -10,17 +10,27 @@ class Comment extends Model
 {
     use HasFactory;
 
+    /**
+     * to specify those fields which are not mass assignable
+     *
+     * @var array
+     */
     protected $guarded =[];
 
-
-    public function commentable()
+    /**
+     * @description
+     */
+    public function commentable(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
         return $this->morphTo();
     }
 
-    public function user()
+    /**
+     * @description get writer of comment
+     */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-    
+
 }

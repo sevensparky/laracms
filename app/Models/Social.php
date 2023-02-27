@@ -9,5 +9,10 @@ class Social extends Model
 {
     use HasFactory;
 
+    /**
+     * to specify those fields which are not mass assignable
+     *
+     * @var array
+     */
     protected $guarded = [];
 }

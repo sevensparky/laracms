@@ -5,9 +5,10 @@
             <h2>افزودن خبر
             </h2>
             <ul class="nav navbar-right panel_toolbox">
-                <button type="submit" class="btn btn-success"
-                    onclick="document.getElementById('form-master').submit()">ذخیره</button>
-                <li title="برگشت"><a class="btn btn-sm" href="{{ route('news.index') }}"><i class="fa fa-arrow-left"></i></a>
+                <li title="برگشت">
+                    <a class="btn btn-sm" href="{{ route('news.index') }}">
+                        <i class="fa fa-arrow-left"></i>
+                    </a>
                 </li>
             </ul>
 
@@ -20,61 +21,62 @@
 
                     <div class="x_content">
                         <br />
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $item)
+                                        <li>
+                                            {{ $item }}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
                         <div id="demo-form1" data-parsley-validate class="form-horizontal form-label-left">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="text" name="headline" id="headline" value="{{ old('headline') }}"
-                                            class="form-control" placeholder="روتیتر">
+                                        <label for="title">عنوان</label>
+                                        <input type="text" name="title" id="title"
+                                            value="{{ old('title', optional($news ?? null)->title) }}" class="form-control"
+                                            placeholder="عنوان">
+                                        @error('title')
+                                            <small class="text-danger">
+                                                <strong>{{ $message }}</strong>
+                                            </small>
+                                        @enderror
                                     </div>
+
                                 </div>
-                                <div class="col-md-6">
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="text" name="title" id="title" value="{{ old('title') }}"
-                                            class="form-control" placeholder="عنوان">
+                                        <label for="description">خلاصه مطلب</label>
+                                        <textarea cols="6" rows="6" name="description" id="description"
+                                            value="{{ old('description', optional($news ?? null)->description) }}" class="form-control" placeholder="خلاصه مطلب"
+                                            style="resize: none"></textarea>
+
+                                        @error('description')
+                                            <small class="text-danger">
+                                                <strong>{{ $message }}</strong>
+                                            </small>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <select class="form-control" name="service" id="service">
-                                            <option value="" selected>انتخاب سرویس</option>
-                                            <option value="دسته بندی نشده">دسته بندی نشده</option>
-                                            <option value="استان‌ها">استان‌ها</option>
-                                            <option value="اصفهان"> اصفهان</option>
-                                            <option value="انتخابات">انتخابات</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" name="external_link" id="external_link"
-                                            value="{{ old('external_link') }}" class="form-control"
-                                            placeholder="لینک خارجی خبر">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" name="tags" id="tags" value="{{ old('tag') }}"
-                                            class="form-control" placeholder="برچسب های خبر">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <textarea cols="6" rows="6" name="description" id="description" value="{{ old('description') }}"
-                                            class="form-control" placeholder="خلاصه مطلب" style="resize: none"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                {{-- <h6>متن کامل خبر</h6> --}}
+                                <label for="content">متن کامل خبر</label>
                                 <textarea name="content" id="content"></textarea>
+                                @error('content')
+                                    <small class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </small>
+                                @enderror
                             </div>
 
                         </div>
@@ -88,38 +90,86 @@
                         <br />
                         <div id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
-
                             <div class="form-group">
-                                <select class="form-control" name="news_type" id="news_type">
-                                    <option value="" selected>انتخاب نوع خبر</option>
-                                    <option value="خبر">خبر</option>
-                                    <option value="مقاله">مقاله</option>
-                                    <option value="یادداشت">یادداشت</option>
-                                    <option value="گفتگو و گزارش">گفتگو و گزارش</option>
-                                    <option value="طنز">طنز</option>
-                                    <option value="کاریکاتور">کاریکاتور</option>
-                                    <option value="گالری">گالری</option>
-                                    <option value="فیلم">فیلم</option>
-                                    <option value="صوت">صوت</option>
-                                    <option value="آدرس اینترنتی">آدرس اینترنتی</option>
-                                    <option value="نمودار">نمودار</option>
-                                    <option value="داده نمایی">داده نمایی</option>
-                                    <option value="سرخط خبرها">سرخط خبرها</option>
+                                <label for="category_id">دسته بندی</label>
+                                <select class="form-control" name="category_id" id="category_id">
+                                    <option value=""></option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
                                 </select>
+
+                                @error('category_id')
+                                    <small class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </small>
+                                @enderror
                             </div>
 
                             <div class="form-group">
-                                <select class="form-control" name="news_production_type" id="news_production_type">
-                                    <option value="" selected>انتخاب نوع تولید خبر</option>
-                                    <option value="خبر (تولیدی)">خبر (تولیدی)</option>
-                                    <option value="پوششی">پوششی</option>
-                                    <option value="گفتگو">گفتگو</option>
-                                    <option value="گزارش">گزارش</option>
-                                    <option value="گفتگوی بلند">گفتگوی بلند</option>
-                                    <option value="ترجمه">ترجمه</option>
-                                    <option value="فکس">فکس</option>
-                                </select>
+                                <label for="tags">برچسب ها</label>
+                                <section>
+                                    <input type="text" name="tags" id="tags" data-role="tagsinput"
+                                    value="{{ old('tags', optional($news ?? '')->tags) }}" class="form-control"
+                                    placeholder="برچسب های خبر">
+                                    
+                                    <section class="alert alert-warning" style="margin-top: 1rem;">
+                                        <i class="fa fa-exclamation-triangle"></i>
+                                        برای وارد کردن برچسب نام آن را نوشته و از کلید تب برای برچسب بعدی  و جداسازی آن استفاده کنید.
+                                    </section>
+                                
+                                </section>
+
+
+                                @error('tags')
+                                    <small class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </small>
+                                @enderror
                             </div>
+
+                            {{-- <div class="form-group">
+                                <label for="status">وضعیت انتشار</label>
+                                <select class="form-control" name="status" id="status">
+                                    <option value=""></option>
+                                    <option value="active">منتشر شود</option>
+                                    <option value="inactive">منتشر نشود</option>
+                                </select>
+
+                                @error('status')
+                                    <small class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </small>
+                                @enderror
+                            </div> --}}
+
+                            <div class="form-group">
+                                <label for="source_address">آدرس منبع</label>
+                                <input type="text" name="source_address" id="source_address"
+                                    value="{{ old('source_address', optional($news ?? '')->source_address) }}"
+                                    class="form-control" placeholder="آدرس منبع">
+
+                                @error('source_address')
+                                    <small class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </small>
+                                @enderror
+                            </div>
+
+                            <hr>
+
+                            <div class="form-group">
+                                <label for="picture">تصویر اصلی</label>
+                                <input type="file" name="picture" id="picture"
+                                    value="{{ old('picture', optional($news ?? '')->picture) }}" class="form-control">
+
+                                @error('picture')
+                                    <small class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </small>
+                                @enderror
+                            </div>
+
                             <hr>
 
                             <div style="display: flex;margin: 1rem 0">
@@ -217,287 +267,44 @@
 
 
                             </div>
-
-
-
-
-                            <div class="form-group">
-                                <select class="form-control" name="news_source" id="news_source">
-                                    <option value="" selected>انتخاب منبع</option>
-                                    <option value="ایرنا">ایرنا</option>
-                                    <option value="تسنیم">تسنیم</option>
-                                    <option value="فارس">فارس</option>
-                                    <option value="باشگاه خبرنگاران جوان">باشگاه خبرنگاران جوان</option>
-                                    <option value="مهر">مهر</option>
-                                    <option value="ايسنا">ايسنا</option>
-                                    <option value="خبرگزاری دانشجو">خبرگزاری دانشجو</option>
-                                    <option value="جهان">جهان</option>
-                                    <option value="واحد مرکزی خبر">واحد مرکزی خبر</option>
-                                    <option value="العالم">العالم</option>
-                                    <option value="برنا">برنا</option>
-                                    <option value="ایلنا">ایلنا</option>
-                                    <option value="سلامت">سلامت</option>
-                                    <option value="تابناک">تابناک</option>
-                                    <option value="عصر ایران">عصر ایران</option>
-                                    <option value="دانا">دانا</option>
-                                    <option value="فردا">فردا</option>
-                                    <option value="خبر آنلاین">خبر آنلاین</option>
-                                    <option value="جوان آنلاین">جوان آنلاین</option>
-                                    <option value="جام نیوز">جام نیوز</option>
-                                    <option value="خانه ملت">خانه ملت</option>
-                                    <option value="اقتصادپرس">اقتصادپرس</option>
-                                    <option value="اقتصاد نیوز">اقتصاد نیوز</option>
-                                    <option value="اقتصاد آنلاین">اقتصاد آنلاین</option>
-                                    <option value="مشرق">مشرق</option>
-                                    <option value="رجانیوز">رجانیوز</option>
-                                    <option value="صراط نيوز">صراط نيوز</option>
-                                    <option value="نسيم آنلاين">نسيم آنلاين</option>
-                                    <option value="پارسینه">پارسینه</option>
-                                    <option value="ایران">ایران</option>
-                                    <option value="همشهری">همشهری</option>
-                                    <option value="جام جم">جام جم</option>
-                                    <option value="کیهان">کیهان</option>
-                                    <option value="خراسان">خراسان</option>
-                                    <option value="دنیای اقتصاد">دنیای اقتصاد</option>
-                                    <option value="وطن امروز">وطن امروز</option>
-                                    <option value="اطلاعات">اطلاعات</option>
-                                    <option value="رسالت">رسالت</option>
-                                    <option value="ورزش3">ورزش3</option>
-                                    <option value="روزنامه نود">روزنامه نود</option>
-                                    <option value="وبسایت نود">وبسایت نود</option>
-                                    <option value="ابرار ورزشی">ابرار ورزشی</option>
-                                    <option value="همشهری ورزشی">همشهری ورزشی</option>
-                                    <option value="رادنیوز">رادنیوز</option>
-                                    <option value="نامه نیوز">نامه نیوز</option>
-                                    <option value="ورزش 11">ورزش 11</option>
-                                    <option value="فيفا">فيفا</option>
-                                    <option value="باشگاه استقلال تهران">باشگاه استقلال تهران</option>
-                                    <option value="باشگاه پرسپولیس تهران">باشگاه پرسپولیس تهران</option>
-                                    <option value="سازمان تربيت بدني">سازمان تربيت بدني</option>
-                                    <option value="خبرگزاری ورزش ایران">خبرگزاری ورزش ایران</option>
-                                    <option value="ایران ورزشی">ایران ورزشی</option>
-                                    <option value="خبر ورزشی">خبر ورزشی</option>
-                                    <option value="شبکه ورزش ایران">شبکه ورزش ایران</option>
-                                    <option value="گل">گل</option>
-                                    <option value="هنر نيوز">هنر نيوز</option>
-                                    <option value="هنر آنلاين">هنر آنلاين</option>
-                                    <option value="پیشخوان">پیشخوان</option>
-                                    <option value="سینما ژورنال">سینما ژورنال</option>
-                                    <option value="سینماپرس">سینماپرس</option>
-                                    <option value="خبرگزاری سينما">خبرگزاری سينما</option>
-                                    <option value="برهان">برهان</option>
-                                    <option value="شرق">شرق</option>
-                                    <option value="شهروند">شهروند</option>
-                                    <option value="اشراف">اشراف</option>
-                                    <option value="اسلام کوئست">اسلام کوئست</option>
-                                    <option value="پایگاه اطلاع رسانی دفتر مقام معظم رهبری">پایگاه اطلاع رسانی دفتر مقام
-                                        معظم رهبری</option>
-                                    <option value="پایگاه اطلاع رسانی ریاست جمهوری">پایگاه اطلاع رسانی ریاست جمهوری
-                                    </option>
-                                    <option value="پایگاه اطلاع رسانی دولت">پایگاه اطلاع رسانی دولت</option>
-                                    <option value="فرهنگ نیوز">فرهنگ نیوز</option>
-                                    <option value="خبرگزاری دفاع مقدس">خبرگزاری دفاع مقدس</option>
-                                    <option value="خبرگزاری بسیج">خبرگزاری بسیج</option>
-                                    <option value="دیده بان">دیده بان</option>
-                                    <option value="مرکزاسناد انقلاب اسلامی">مرکزاسناد انقلاب اسلامی</option>
-                                    <option value="مسیر آنلاین">مسیر آنلاین</option>
-                                    <option value="رجویسم">رجویسم</option>
-                                    <option value="امپراتوری دروغ">امپراتوری دروغ</option>
-                                    <option value="دیدبان">دیدبان</option>
-                                    <option value="کاپ">کاپ</option>
-                                    <option value="ابنا">ابنا</option>
-                                    <option value="میزان">میزان</option>
-                                    <option value="بانک ورزش">بانک ورزش</option>
-                                    <option value="گرداب">گرداب</option>
-                                    <option value="عقیق">عقیق</option>
-                                    <option value="خبرگزاری صدا و سیما">خبرگزاری صدا و سیما</option>
-                                    <option value="طرفداری">طرفداری</option>
-                                    <option value="دیپلماسی ایرانی">دیپلماسی ایرانی</option>
-                                    <option value="ایران هسته ای">ایران هسته ای</option>
-                                    <option value="صبحانه آنلاین">صبحانه آنلاین</option>
-                                    <option value="تبیان">تبیان</option>
-                                    <option value="نماینده">نماینده</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <input type="text" name="news_source_address" id="news_source_address"
-                                    value="{{ old('tag') }}" class="form-control" placeholder="آدرس منبع">
-                            </div>
-
-                            <select class="form-control" name="message_end_news" id="message_end_news">
-                                <option value="" selected>پیام انتهای خبر</option>
-                                <option value="انتهای پیام/">انتهای پیام/</option>
-                                <option value="خبر در حال تکمیل می باشد...">خبر در حال تکمیل می باشد...</option>
-                                <option value="پایان رپرتاژ آگهی">پایان رپرتاژ آگهی</option>
-                            </select>
                             <hr>
-                            <div style="display: flex">
-                                <h6 style="font-weight: bold; font-size: 14px">تولیدکنندگان</h6>
-                                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal"
-                                    data-target="#company">
-                                    <i class="fa fa-building"></i>
-                                </button>
-                                <div class="modal fade" id="company" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-scrollable" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalScrollableTitle">شرکت</h5>
-
-                                                <button type="button" class="btn btn-sm"
-                                                    style="float: left;margin-bottom: -6px;"
-                                                    onclick="addCompanies('company', 'modal-company', 'نام شرکت')">
-                                                    <i class="fa fa-plus"></i>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body" id="modal-company">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">ثبت</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <section>
+                                <div class="form-check">
+                                    <input class="form-check-input" name="main_news" type="checkbox"
+                                        id="mainItem">
+                                    <label class="form-check-label" for="mainItem">
+                                        انتخاب به عنوان آیتم اصلی خبر
+                                    </label>
                                 </div>
 
-                                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal"
-                                    data-target="#author">
-                                    <i class="fa fa-user"></i>
-                                </button>
-                                <div class="modal fade" id="author" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-scrollable" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalScrollableTitle">مولف</h5>
-                                                <button type="button" class="btn btn-sm"
-                                                    style="float: left;margin-bottom: -6px;"
-                                                    onclick="addAuthors('author', 'modal-author', 'نام مولف')">
-                                                    <i class="fa fa-plus"></i>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body" id="modal-author">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">ثبت</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" name="headline_news" type="checkbox"
+                                        id="firstItem">
+                                    <label class="form-check-label" for="firstItem">
+                                        انتخاب به عنوان تیتر روز خبر                                
+                                    </label>
                                 </div>
 
-                                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal"
-                                    data-target="#journalist">
-                                    <i class="fa fa-newspaper-o"></i>
-                                </button>
-                                <div class="modal fade" id="journalist" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-scrollable" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalScrollableTitle">خبرنگار</h5>
-
-                                                <button type="button" class="btn btn-sm"
-                                                    style="float: left;margin-bottom: -6px;"
-                                                    onclick="addJournalists('journalist','modal-journalist', 'نام خبرنگار')">
-                                                    <i class="fa fa-plus"></i>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body" id="modal-journalist">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">ثبت</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" name="magazine" type="checkbox"
+                                        id="magazine">
+                                    <label class="form-check-label" for="magazine">
+                                        افزودن به مجله خبری                                
+                                    </label>
                                 </div>
 
-                                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal"
-                                    data-target="#photographer">
-                                    <i class="fa fa-camera"></i>
-                                </button>
-                                <div class="modal fade" id="photographer" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-scrollable" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalScrollableTitle">عکاس</h5>
-
-                                                <button type="button" class="btn btn-sm"
-                                                    style="float: left;margin-bottom: -6px;"
-                                                    onclick="addPhotographers('photographer', 'modal-photographer', 'نام عکاس')">
-                                                    <i class="fa fa-plus"></i>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body" id="modal-photographer">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">ثبت</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal"
-                                    data-target="#translator">
-                                    <i class="fa fa-text-width"></i>
-                                </button>
-                                <div class="modal fade" id="translator" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-scrollable" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalScrollableTitle">مترجم</h5>
-
-                                                <button type="button" class="btn btn-sm"
-                                                    style="float: left;margin-bottom: -6px;"
-                                                    onclick="addTranslators('translator', 'modal-translator', 'نام مترجم')">
-                                                    <i class="fa fa-plus"></i>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body" id="modal-translator">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">ثبت</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal"
-                                    data-target="#writer">
-                                    <i class="fa fa-pencil"></i>
-                                </button>
-                                <div class="modal fade" id="writer" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-scrollable" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalScrollableTitle">دبیر</h5>
-
-                                                <button type="button" class="btn btn-sm"
-                                                    style="float: left;margin-bottom: -6px;"
-                                                    onclick="addWriters('writer', 'modal-writer', 'نام دبیر')">
-                                                    <i class="fa fa-plus"></i>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body" id="modal-writer">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">ثبت</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                            </section>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-12">
+                <div class="x_panel" style="display: flex; justify-content: space-around">
+                    <a href="{{ route('news.index') }}" class="btn btn-info">انصراف</a>
+
+                    <button type="submit" class="btn btn-success"
+                        onclick="document.getElementById('form-master').submit()">ذخیره</button>
                 </div>
             </div>
 
@@ -510,6 +317,7 @@
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('ckeditor/lang/fa.js') }}"></script>
     <script src="{{ asset('bin/js/helpers/addelements.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap-tags-input/bootstrap-tagsinput.js') }}"></script>
 
     <script>
         CKEDITOR.replace('content', {
@@ -596,9 +404,41 @@
             });
         }
     </script>
+
+
+    <script>
+        $("#mainItem").on('change', function() {
+            if ($(this).is(':checked')) {
+                $("#mainItem").attr('value', 'true');
+                $("#mainItem").prop("checked", true);
+
+                $("#firstItem").attr('disabled', 'disabled');
+            } else {
+                $("#mainItem").removeAttr('value');
+                $("#mainItem").prop("checked", false);
+
+                $("#firstItem").removeAttr('disabled');
+            }
+        });
+
+        $("#firstItem").on('change', function() {
+            if ($(this).is(':checked')) {
+                $("#firstItem").attr('value', 'true');
+                $("#firstItem").prop("checked", 1);
+
+                $("#mainItem").attr('disabled', 'disabled');
+            } else {
+                $("#firstItem").removeAttr('value');
+                $("#firstItem").prop("checked", 0);
+
+                $("#mainItem").removeAttr('disabled');
+            }
+        });    
+    </script>
 @endpush
 
 @push('styles')
+    <link rel="stylesheet" href="{{ asset('vendor/bootstrap-tags-input/bootstrap-tagsinput.css') }}">
     <style>
         .upload {
             &__box {
